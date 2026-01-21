@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+}
+
+header {
+  background: #1f2937;
+  color: #fff;
+  padding: 30px 10px;
+  text-align: center;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+.level-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.level-card h2 {
+  margin-bottom: 15px;
+}
+
+.level-card a {
+  display: block;
+  margin: 8px 0;
+  padding: 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #2563eb;
+  background: #eef2ff;
+  font-weight: bold;
+}
+
+.level-card a:hover {
+  background: #dbeafe;
+}
+
+/* Back ボタン用（追加したのはここだけ） */
+.center-back {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.level-btn {
+  padding: 12px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.back-btn {
+  background: #059669;
+}
+
+.back-btn:hover {
+  opacity: 0.85;
+}
+
+footer {
+  background: #1f2937;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+}
