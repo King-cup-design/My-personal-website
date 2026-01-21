@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>敬語の種類</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+
+      /* ★ 背景写真 */
+      background-image: urlres;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    /* 白い背景（文字を読みやすく） */
+    .wrapper {
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .btn-area {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .keigo-btn {
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #fff;
+      min-width: 120px;
+    }
+
+    .sonkeigo { background: #2563eb; }
+    .kenjogo  { background: #7c3aed; }
+    .teineigo { background: #059669; }
+
+    .content {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: none;
+    }
+
+    .content h2 {
+      margin-top: 0;
+    }
+
+    .back {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .back a {
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <h1>敬語の種類</h1>
+
+  <div class="btn-area">
+    <button class="keigo-btn sonkeigo" onclick="showContent('sonkeigo')">尊敬語</button>
+    <button class="keigo-btn kenjogo" onclick="showContent('kenjogo')">謙譲語</button>
+    <button class="keigo-btn teineigo" onclick="showContent('teineigo')">丁寧語</button>
+  </div>
+
+  <div id="sonkeigo" class="content">
+    <h2>尊敬語（そんけいご）</h2>
+    <p><strong>相手の行動や状態を高めて表現する</strong>敬語です。</p>
+    <ul>
+      <li>行く → いらっしゃる</li>
+      <li>見る → ご覧になる</li>
+      <li>言う → おっしゃる</li>
+    </ul>
+  </div>
+
+  <div id="kenjogo" class="content">
+    <h2>謙譲語（けんじょうご）</h2>
+    <p><strong>自分の行動を低くして相手を立てる</strong>敬語です。</p>
+    <ul>
+      <li>行く → 参る</li>
+      <li>見る → 拝見する</li>
+      <li>言う → 申し上げる</li>
+    </ul>
+  </div>
+
+  <div id="teineigo" class="content">
+    <h2>丁寧語（ていねいご）</h2>
+    <p><strong>話し方を丁寧にする</strong>敬語です。</p>
+    <ul>
+      <li>です・ます</li>
+      <li>行きます</li>
+      <li>食べます</li>
+    </ul>
+  </div>
+
+  <div class="back">
+    <a href="../index.html">← 戻る</a>
+  </div>
+
+</div>
+
+<script>
+  function showContent(id) {
+    document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
