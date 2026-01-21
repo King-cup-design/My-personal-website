@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N2 Kanji テスト1</title>
+<style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f4f8;
+  color: #1f2937;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 760px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+h1 {
+  text-align: center;
+  color: #0ea5a4;
+  margin-bottom: 24px;
+}
+#quiz-area p {
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+.option-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 8px 0;
+  padding: 12px;
+  font-size: 16px;
+  background: #e5e7eb;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.18s;
+}
+.option-btn:hover { background: #d1fae5; }
+.option-selected { background: #fde68a; }
+#navigation { display: flex; justify-content: space-between; margin-top: 22px; gap:10px; }
+.nav-btn {
+  flex:1;
+  padding: 10px 14px;
+  font-size: 16px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.18s;
+}
+.nav-btn:hover { background: #2563eb; }
+#show-result-btn { background: #10b981; }
+#show-result-btn:hover { background: #059669; }
+#result-area { display:none; margin-top:20px; }
+#result-area h2 { text-align:center; color:#059669; }
+.result-table { width:100%; border-collapse: collapse; margin-top:15px; }
+.result-table th, .result-table td { border:1px solid #d1d5db; padding:8px; text-align:left; }
+.result-table th { background:#f3f4f6; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>N2 Kanji テスト1</h1>
+
+<div id="quiz-area"></div>
+
+<div id="navigation">
+  <button id="back-btn" class="nav-btn">Back</button>
+  <button id="next-btn" class="nav-btn">Next</button>
+  <button id="show-result-btn" class="nav-btn">結果を見る</button>
+</div>
+
+<div id="result-area">
+  <h2>結果</h2>
+  <p id="score"></p>
+  <table class="result-table" id="detail"></table>
+</div>
+</div>
+
+<script>
+// 15問データ（N2レベル）
+const quizData = [
+  {q:"事故の原因をよく【かくにん】する必要がある。",
+   answer:"確認", reading:"かくにん", meaning_jp:"確かめること", meaning_en:"confirmation, verification", meaning_np:"पुष्टि गर्नु",
+   options:["確認","確認","覚認","覚承"]},
+  {q:"被災者に対する【えんじょ】が急がれる。",
+   answer:"援助", reading:"えんじょ", meaning_jp:"助けること、支援", meaning_en:"assistance, aid", meaning_np:"सहयोग" ,
+   options:["援助","遠助","園助","腕助"]},
+  {q:"その文章の意味をどう【かいしゃく】するかで意見が分かれた。",
+   answer:"解釈", reading:"かいしゃく", meaning_jp:"意味を読み取ること", meaning_en:"interpretation", meaning_np:"व्याख्या" ,
+   options:["解釈","解釈し","解若","解釈子"]},
+  {q:"現状を[維持]するだけではなく、改善を目指すべきだ。",
+   answer:"維持", reading:"いじ", meaning_jp:"その状態を保つこと", meaning_en:"maintenance, preservation", meaning_np:"अवस्थिति कायम राख्नु",
+   options:["維持","偉持","意持","慰持"]},
+  {q:"彼の発言には十分な【しょうこ】があった。",
+   answer:"証拠", reading:"しょうこ", meaning_jp:"事実を示す物的・証拠", meaning_en:"evidence", meaning_np:"प्रमाण",
+   options:["証拠","証拠品","正拠","証拠子"]},
+  {q:"病気の【よぼう】には予防接種が有効だ。",
+   answer:"予防", reading:"よぼう", meaning_jp:"病気などを防ぐこと", meaning_en:"prevention", meaning_np:"रोकथाम",
+   options:["予防","余防","預防","預防" ]},
+  {q:"契約内容を一部【へんこう】した。",
+   answer:"変更", reading:"へんこう", meaning_jp:"変えること", meaning_en:"change, modification", meaning_np:"परिवर्तन",
+   options:["変更","変更","辺康","偏行"]},
+  {q:"新しい法律をこの事例に【てきよう】できるか検討する。",
+   answer:"適用", reading:"てきよう", meaning_jp:"そのものに当てはめること", meaning_en:"application", meaning_np:"लागू गर्नु",
+   options:["適用","敵用","適様","滴用"]},
+  {q:"先方に正式に【いらい】しておいた。",
+   answer:"依頼", reading:"いらい", meaning_jp:"頼むこと、依頼すること", meaning_en:"request", meaning_np:"अनुरोध",
+   options:["依頼","委頼","依来","偉頼"]},
+  {q:"入国許可のために書類を【しんせい】した。",
+   answer:"申請", reading:"しんせい", meaning_jp:"申し込むこと", meaning_en:"application (formal)", meaning_np:"आवेदन",
+   options:["申請","申請書","真請","申制"]},
+  {q:"売上のデータが報告書に【はんえい】されている。",
+   answer:"反映", reading:"はんえい", meaning_jp:"影響や結果が表れること", meaning_en:"reflection, influence", meaning_np:"प्रतिबिम्ब",
+   options:["反映","版映","反映り","反映る"]},
+  {q:"不要なファイルをひとつずつ【さくじょ】した。",
+   answer:"削除", reading:"さくじょ", meaning_jp:"取り除くこと", meaning_en:"deletion", meaning_np:"हटाउनु",
+   options:["削除","削去","削除し","削除子"]},
+  {q:"弟は親に【はんこう】することが多い。",
+   answer:"反抗", reading:"はんこう", meaning_jp:"逆らうこと", meaning_en:"rebellion, resistance", meaning_np:"विरोध गर्नु",
+   options:["反抗","判抗","反光","反行"]},
+  {q:"年長者の意見を【そんちょう】するべきだ。",
+   answer:"尊重", reading:"そんちょう", meaning_jp:"大切に扱うこと", meaning_en:"respect", meaning_np:"सन्मान गर्नु",
+   options:["尊重","尊称","損重","尊証"]},
+  {q:"急用ができたので【れんらく】を入れた。",
+   answer:"連絡", reading:"れんらく", meaning_jp:"知らせることや連絡を取ること", meaning_en:"contact, communication", meaning_np:"सम्पर्क"
+  , options:["連絡","連絡先","連絡し","連落"]}
+];
+
+// 正解位置をバラバラ固定
+// 正解の位置をランダム生成
+const correctPositions = Array.from({ length: quizData.length }, () => Math.floor(Math.random() * 4));
+quizData.forEach((q,i)=>{
+  const correct=q.answer;
+  const others=q.options.filter(o=>o!==correct);
+  const shuffled=[];
+  let j=0;
+  for(let k=0;k<4;k++){
+    if(k===correctPositions[i]){
+      shuffled.push(correct);
+    }else{
+      shuffled.push(others[j++] || others[0]);
+    }
+  }
+  q.shuffledOptions=shuffled;
+});
+
+let current=0;
+const userAnswers=new Array(quizData.length).fill(null);
+
+function showQuestion(){
+  const q=quizData[current];
+  const quizArea=document.getElementById("quiz-area");
+  quizArea.style.display="block";
+  quizArea.innerHTML=`<p>${current+1}) ${q.q}</p>`;
+  q.shuffledOptions.forEach(opt=>{
+    const btn=document.createElement("button");
+    btn.innerText=opt;
+    btn.classList.add("option-btn");
+    if(userAnswers[current]===opt) btn.classList.add("option-selected");
+    btn.onclick=()=>{ userAnswers[current]=opt; showQuestion(); };
+    quizArea.appendChild(btn);
+  });
+}
+
+document.getElementById("back-btn").onclick=()=>{ if(current>0) current--; showQuestion(); };
+document.getElementById("next-btn").onclick=()=>{ if(current<quizData.length-1) current++; showQuestion(); };
+
+document.getElementById("show-result-btn").onclick=()=>{
+  let correct=0,wrong=0;
+  const detailArea=document.getElementById("detail");
+  detailArea.innerHTML="";
+  quizData.forEach((q,i)=>{
+    const ua=userAnswers[i]||"未回答";
+    const isCorrect=ua===q.answer;
+    if(isCorrect) correct++; else wrong++;
+    const row=document.createElement("tr");
+    row.innerHTML=`<td style="width:40px">${i+1}</td>
+      <td>${q.q}</td>
+      <td>${ua}</td>
+      <td>${q.answer} （${q.reading}）</td>
+      <td>${q.meaning_jp} / ${q.meaning_en} / ${q.meaning_np}</td>`;
+    detailArea.appendChild(row);
+  });
+  document.getElementById("score").innerText=`正解: ${correct} / 不正解: ${wrong}`;
+  document.getElementById("quiz-area").style.display="none";
+  document.getElementById("back-btn").style.display="none";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("show-result-btn").style.display="none";
+  document.getElementById("result-area").style.display="block";
+};
+
+showQuestion();
+</script>
+</body>
+</html>

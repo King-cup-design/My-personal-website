@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N1 Kanji テスト</title>
+  <link rel="stylesheet" href="../../style.css">
+  
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      background-image: url('Write1.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      color: #1f2937;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* テストボタン (丸ボタン) デザイン強化版 */
+    .level-btn {
+      padding: 12px 24px;
+      font-size: 14px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
+      color: white;
+      width: 90px;
+      height: 90px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+      transition: 0.3s ease;
+    }
+
+    /* ホバー時の動き */
+    .level-btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+    }
+  </style>
+</head>
+<body>
+  <h1>N1 Kanji テスト</h1>
+
+  <div class="level-container">
+    <a href="test1.html"><button class="level-btn">テスト1</button></a>
+    <a href="test2.html"><button class="level-btn">テスト2</button></a>
+    <a href="test3.html"><button class="level-btn">テスト3</button></a>
+    <a href="test4.html"><button class="level-btn">テスト4</button></a>
+    <a href="test5.html"><button class="level-btn">テスト5</button></a>
+    <a href="test6.html"><button class="level-btn">テスト6</button></a>
+    <a href="test7.html"><button class="level-btn">テスト7</button></a>
+    <a href="test8.html"><button class="level-btn">テスト8</button></a>
+    <a href="test9.html"><button class="level-btn">テスト9</button></a>
+    <a href="test10.html"><button class="level-btn">テスト10</button></a>
+    <a href="test11.html"><button class="level-btn">テスト11</button></a>
+    <a href="test12.html"><button class="level-btn">テスト12</button></a>
+    <a href="test13.html"><button class="level-btn">テスト13</button></a>
+    <a href="test14.html"><button class="level-btn">テスト14</button></a>
+    <a href="test15.html"><button class="level-btn">テスト15</button></a>
+    <a href="test16.html"><button class="level-btn">テスト16</button></a>
+    <a href="test17.html"><button class="level-btn">テスト17</button></a>
+    <a href="test18.html"><button class="level-btn">テスト18</button></a>
+    <a href="test19.html"><button class="level-btn">テスト19</button></a>
+    <a href="test20.html"><button class="level-btn">テスト20</button></a>
+    <a href="test21.html"><button class="level-btn">テスト21</button></a>
+    <a href="test22.html"><button class="level-btn">テスト22</button></a>
+    <a href="test23.html"><button class="level-btn">テスト23</button></a>
+    <a href="test24.html"><button class="level-btn">テスト24</button></a>
+    <a href="test25.html"><button class="level-btn">テスト25</button></a>
+    <a href="test26.html"><button class="level-btn">テスト26</button></a>
+    <a href="test27.html"><button class="level-btn">テスト27</button></a>
+    <a href="test28.html"><button class="level-btn">テスト28</button></a>
+    <a href="test29.html"><button class="level-btn">テスト29</button></a>
+    <a href="test30.html"><button class="level-btn">テスト30</button></a>
+    <a href="test31.html"><button class="level-btn">テスト31</button></a>
+    <a href="test32.html"><button class="level-btn">テスト32</button></a>
+    <a href="test33.html"><button class="level-btn">テスト33</button></a>
+    <a href="test34.html"><button class="level-btn">テスト34</button></a>
+    <a href="test35.html"><button class="level-btn">テスト35</button></a>
+    <a href="test36.html"><button class="level-btn">テスト36</button></a>
+    <a href="test37.html"><button class="level-btn">テスト37</button></a>
+    <a href="test38.html"><button class="level-btn">テスト38</button></a>
+    <a href="test39.html"><button class="level-btn">テスト39</button></a>
+  </div>
+
+  <p>
+    <a href="../index.html"><button class="level-btn" style="background:#059669;">Back</button></a>
+  </p>
+
+  <!-- 🔐 テスト1が合格していない場合、2～39をロックするスクリプト -->
+  <script>
+    const passedTest1 = localStorage.getItem("test1_passed");
+
+    if (passedTest1 !== "true") {
+      const lockedButtons = document.querySelectorAll(".level-container a:nth-child(n+2)");
+
+      lockedButtons.forEach(btn => {
+        btn.style.pointerEvents = "none";    // クリック不可能
+        btn.style.opacity = "0.4";           // 鍵の雰囲気
+        btn.querySelector("button").innerText += " 🔒"; // 鍵アイコン追加
+      });
+    }
+  </script>
+
+</body>
+</html>

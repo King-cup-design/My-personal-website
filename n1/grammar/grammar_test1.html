@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N1 Grammar テスト1</title>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fef9c3, #eae9e4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px;
+    }
+    h1 {
+      color: #78350f;
+      margin-bottom: 30px;
+    }
+    .question {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      max-width: 600px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .option-btn {
+      width: 100%;
+      background: #fef3c7;
+      border: 2px solid #facc15;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 6px 0;
+      cursor: pointer;
+      text-align: left;
+      transition: 0.3s;
+    }
+    .option-btn:hover {
+      background: #fde68a;
+    }
+    .option-btn.correct {
+      background-color: #a7f3d0; /* 緑 */
+      border-color: #10b981;
+      color: #065f46;
+    }
+    .option-btn.wrong {
+      background-color: #fca5a5; /* 赤 */
+      border-color: #dc2626;
+      color: #7f1d1d;
+    }
+    .next-btn, .restart-btn {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .back-btn {
+      margin-top: 40px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .explanation-box {
+      background: #fff3cd;
+      border-left: 6px solid #facc15;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Grammar テスト1</h1>
+
+  <div id="quiz-container"></div>
+
+  <a href="index.html"><button class="back-btn">← 戻る</button></a>
+
+<script>
+const n1GrammarQuiz = [
+  { question: "① 彼は忙しいと言うが、昨日はゲームをしていた。忙しい______。",
+    options: ["わりに", "かたわら", "だけあって", "ものを"],
+    answer: "わりに",
+    explanation: "「わりに」＝期待と違う。忙しいのにゲームしているギャップ。"
+  },
+  { question: "② 社長は厳しい______、社員の相談にはよく耳を傾けてくれる。",
+    options: ["どころか", "とはいえ", "だけに", "ものの"],
+    answer: "ものの",
+    explanation: "「ものの」＝AだけれどB。厳しいが、優しい面もある。"
+  },
+  { question: "③ 一度失敗したからといって、あきらめる______。",
+    options: ["にはあたらない", "ものではない", "かいがあって", "とあって"],
+    answer: "ものではない",
+    explanation: "「ものではない」＝してはいけない。あきらめる必要はない。"
+  },
+  { question: "④ 彼女は忙しい______、子どもの世話もしている。",
+    options: ["そばから", "かたわら", "といえども", "なりに"],
+    answer: "かたわら",
+    explanation: "「かたわら」＝AしながらBもする。"
+  },
+  { question: "⑤ この計画は成功する______、準備をしっかりしなければならない。",
+    options: ["にせよ", "として", "ものとして", "べく"],
+    answer: "べく",
+    explanation: "「〜べく」＝目的のために。"
+  },
+  { question: "⑥ 彼は学生______、礼儀正しい。",
+    options: ["ながらに", "としたところで", "とあって", "にして"],
+    answer: "にして",
+    explanation: "「にして」＝AでありながらBレベル。"
+  },
+  { question: "⑦ 一度決めたからには、最後までやり抜く______。",
+    options: ["までだ", "までのことだ", "まである", "のみだ"],
+    answer: "のみだ",
+    explanation: "「のみだ」＝他に方法はない。"
+  },
+  { question: "⑧ このミスは説明______許されるものではない。",
+    options: ["するにたりて", "するまでもなく", "しようにも", "してみせて"],
+    answer: "するまでもなく",
+    explanation: "「するまでもなく」＝説明不要なほど明らか。"
+  },
+  { question: "⑨ 彼は社長______、社員と気さくに話す。",
+    options: ["にしては", "だけあって", "たりとも", "といえども"],
+    answer: "といえども",
+    explanation: "「といえども」＝AでもB。"
+  },
+  { question: "⑩ こんな単純な計算、子ども______できる。",
+    options: ["とあって", "にかたくない", "にして", "であれ"],
+    answer: "にして",
+    explanation: "「にして」＝子どもレベルでもできる。"
+  },
+  { question: "⑪ 彼の努力を思うと、涙を流さず______。",
+    options: ["にはあたらない", "にはすまない", "にはいかない", "ではおかない"],
+    answer: "ではおかない",
+    explanation: "「ではおかない」＝必ずそうなる。"
+  },
+  { question: "⑫ 社長の一声______、会議の空気が一変した。",
+    options: ["とあって", "とあれば", "にあって", "にかかわる"],
+    answer: "とあって",
+    explanation: "「とあって」＝特別な理由。"
+  },
+  { question: "⑬ 彼は忙しいと言うが、昨日は映画を見に行った。忙しい______。",
+    options: ["わりに", "かぎりだ", "こととて", "だけに"],
+    answer: "わりに",
+    explanation: "「わりに」＝期待と違う状態。"
+  },
+  { question: "⑭ この仕事は経験者______、難しいだろう。",
+    options: ["ならでは", "であれ", "にして", "にかぎって"],
+    answer: "ならでは",
+    explanation: "「ならでは」＝A特有の。"
+  },
+  { question: "⑮ そんな危険な場所へ行く______、理解できない。",
+    options: ["とは", "こととて", "にしては", "どころか"],
+    answer: "とは",
+    explanation: "「とは」＝驚き・意外。"
+  }
+];
+
+let current = 0;
+let score = 0;
+let answers = [];
+
+function showQuestion() {
+  const quiz = n1GrammarQuiz[current];
+  const container = document.getElementById("quiz-container");
+
+  container.innerHTML = `
+    <div class="question">
+      <h3>${quiz.question}</h3>
+      ${quiz.options.map(opt => `
+        <button class="option-btn" onclick="selectOption(this, '${opt}')">${opt}</button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function selectOption(btn, option) {
+  const quiz = n1GrammarQuiz[current];
+
+  // 正誤判定
+  if(option === quiz.answer) {
+    score++;
+    btn.classList.add("correct");
+  } else {
+    btn.classList.add("wrong");
+    // 正解ボタンも色付け
+    const buttons = document.querySelectorAll(".option-btn");
+    buttons.forEach(b => {
+      if(b.textContent === quiz.answer) {
+        b.classList.add("correct");
+      }
+    });
+  }
+
+  // ボタンを全て無効化
+  const allBtns = document.querySelectorAll(".option-btn");
+  allBtns.forEach(b => b.disabled = true);
+
+  answers.push({
+    question: quiz.question,
+    correct: quiz.answer,
+    user: option,
+    explanation: quiz.explanation
+  });
+
+  // 0.8秒後に次の問題
+  setTimeout(() => {
+    current++;
+    if(current < n1GrammarQuiz.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }, 800);
+}
+
+function showResult() {
+  const container = document.getElementById("quiz-container");
+
+  let resultHTML = `
+    <div class="question">
+      <h2>結果： ${score} / 15</h2>
+      <hr>
+  `;
+
+  answers.forEach((item, i) => {
+    // 正誤判定で色を付ける
+    const userColor = item.user === item.correct ? 'style="color: #065f46; font-weight:bold;"' : 'style="color: #7f1d1d; font-weight:bold;"';
+    const correctColor = 'style="color: #065f46; font-weight:bold;"'; // 正解は常に緑
+
+    resultHTML += `
+      <p><b>${i+1}. ${item.question}</b><br>
+      ● あなたの答え： <span ${userColor}>${item.user}</span><br>
+      ● 正解： <span ${correctColor}>${item.correct}</span><br>
+      <div class="explanation-box">${item.explanation}</div>
+      </p><hr>
+    `;
+  });
+
+  resultHTML += `
+      <button class="restart-btn" onclick="restartQuiz()">もう一度やる</button>
+    </div>
+  `;
+
+  container.innerHTML = resultHTML;
+}
+
+function restartQuiz() {
+  current = 0;
+  score = 0;
+  answers = [];
+  showQuestion();
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>

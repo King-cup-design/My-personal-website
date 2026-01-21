@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N2 Kanji テスト</title>
+  <link rel="stylesheet" href="../../style.css">
+  
+  <style>
+    /* ページ全体の背景設定 */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      
+      /* 背景色 */
+      background-color: #f0f4f8;
+
+      /* 背景画像（実際の画像パスに置き換えてください） */
+      background-image: url('kanji.jpg');
+
+      /* 背景画像の表示設定 */
+      background-repeat: no-repeat;       /* 繰り返さない */
+      background-size: cover;             /* ページ全体に表示 */
+      background-position: center;        /* 中央に配置 */
+
+      /* テキスト色 */
+      color: #1f2937;
+      
+      /* 余白リセット */
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ボタンやコンテナを少し見やすくする */
+    .level-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .level-btn {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #3b82f6;  /* デフォルトのボタン色 */
+      color: white;
+      transition: 0.3s;
+    }
+
+    .level-btn:hover {
+      background-color: #2563eb;
+    }
+
+    /* 戻るボタンの色は個別指定済み */
+    .level-btn[style] {
+      font-weight: bold;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+  </style>
+</head>
+<body>
+ <h1>
+  <span style="background-color: #f0f0f0; color: #ff6600; padding: 0 5px;">
+    N2 Kanji テスト
+  </span>
+</h1>
+  <div class="level-container">
+    <a href="test1.html"><button class="level-btn">テスト1</button></a>
+    <a href="test2.html"><button class="level-btn">テスト2</button></a>
+    <a href="test3.html"><button class="level-btn">テスト3</button></a>
+    <a href="test4.html"><button class="level-btn">テスト4</button></a>
+    <a href="test5.html"><button class="level-btn">テスト5</button></a>
+  </div>
+
+
+  <p>
+    
+    <a href="../index.html"><button class="level-btn" style="background:#059669;">Back</button></a></p>
+  
+
+</body>
+</html>

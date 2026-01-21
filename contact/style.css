@@ -1,0 +1,98 @@
+body {
+    font-family: "Hiragino Sans", "Yu Gothic", Arial, sans-serif;
+    background: linear-gradient(#eef3ff, #dde6ff);
+    margin: 0;
+    padding: 0;
+}
+
+/* header */
+header {
+    background: #23395b;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+nav a {
+    color: #cfe2ff;
+    text-decoration: none;
+    margin: 0 12px;
+    font-size: 16px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Profile Card */
+.profile {
+    width: 92%;
+    max-width: 600px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    text-align: center;
+}
+
+/* ◯写真 */
+.profile-photo {
+    width: 230px;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Gmail */
+.gmail-link {
+    color: #23395b;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.gmail-link:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+/* SNS Icon */
+.social-links {
+    margin: 10px 0 25px;
+    text-align: center;
+}
+
+.social-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+/* Intro */
+.intro {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #333;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+/* Skills List */
+.skills {
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.8;
+    margin-top: 10px;
+    padding-left: 20px;
+}

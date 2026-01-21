@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N1 漢字テスト1</title>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    h1 { text-align: center; }
+    .quiz-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 18px;
+      background: #e8e8ff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .option-btn:hover {
+      background: #d0d0ff;
+      transform: scale(1.02);
+    }
+    .next-btn {
+      padding: 12px 20px;
+      font-size: 18px;
+      background: #4a74ff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    #back-btn {
+      padding: 12px 20px;
+      font-size: 18px;
+      background: #666;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+      margin-right: 10px;
+    }
+    .result-box {
+      padding: 20px;
+    }
+    .result-item {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+    .correct { color: green; font-weight: bold; }
+    .wrong { color: red; font-weight: bold; }
+  </style>
+</head>
+
+<body>
+
+<h1>N1 漢字テスト 1</h1>
+
+<div class="quiz-box" id="quiz-box">
+
+  <p id="question"></p>
+  <div id="options"></div>
+
+  <div style="display:flex; gap:10px;">
+    <button id="back-btn" style="display:none;">Back</button>
+    <button id="next-btn" class="next-btn" style="display:none;">Next</button>
+  </div>
+
+</div>
+
+<script>
+
+/* ====== ★ 選択肢シャッフル ====== */
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+/* ====== ★ 15問データ ====== */
+const quizData = [
+  {q:"会社のことを思えばこそ、厳しい環境の中でも【けんめい】に努力を続けてこられたのです。",
+   answer:"懸命", reading:"けんめい", meaning_jp:"非常に努力すること",
+   meaning_en:"to make utmost effort",
+   meaning_np:"अत्यधिक प्रयास गर्नु",
+   options:["件名","賢明","懸命","憲明"]},
+  {q:"彼は何事にも【ちょうせん】する姿勢を持っている。",
+   answer:"挑戦", reading:"ちょうせん", meaning_jp:"難しいことに取り組むこと",
+   meaning_en:"challenge",
+   meaning_np:"चुनौती लिनु",
+   options:["挑戦","調査","超然","徴戦"]},
+  {q:"新人社員は上司の指導に【したがう】べきだ。",
+   answer:"従う", reading:"したがう", meaning_jp:"命令や指示に従うこと",
+   meaning_en:"to obey",
+   meaning_np:"पालना गर्नु",
+   options:["従う","承う","従属","服す"]},
+  {q:"彼女の考えは非常に【めいりょう】だ。",
+   answer:"明瞭", reading:"めいりょう", meaning_jp:"はっきりしていること",
+   meaning_en:"clear, distinct",
+   meaning_np:"स्पष्ट",
+   options:["明瞭","名領","明料","冥瞭"]},
+  {q:"環境問題に対して【こうどう】を起こす必要がある。",
+   answer:"行動", reading:"こうどう", meaning_jp:"実際に行うこと",
+   meaning_en:"action",
+   meaning_np:"कार्य",
+   options:["行動","構動","功動","交動"]},
+  {q:"彼は【けんとう】の上で発言している。",
+   answer:"検討", reading:"けんとう", meaning_jp:"よく考えて調べること",
+   meaning_en:"consideration",
+   meaning_np:"विचार गर्नु",
+   options:["検討","見当","健闘","献灯"]},
+  {q:"計画を【じっこう】に移す。",
+   answer:"実行", reading:"じっこう", meaning_jp:"計画通りに行うこと",
+   meaning_en:"execution",
+   meaning_np:"कार्यान्वयन",
+   options:["実行","失行","実効","施行"]},
+  {q:"子供たちの安全を【かんり】する。",
+   answer:"管理", reading:"かんり", meaning_jp:"うまく取り扱うこと",
+   meaning_en:"management",
+   meaning_np:"प्रबन्ध",
+   options:["管理","監理","完理","管利"]},
+  {q:"新しい制度の【かいせつ】を読む。",
+   answer:"解説", reading:"かいせつ", meaning_jp:"わかりやすく説明すること",
+   meaning_en:"explanation",
+   meaning_np:"व्याख्या",
+   options:["解説","改説","開設","改設"]},
+  {q:"彼は非常に【ようき】な性格だ。",
+   answer:"陽気", reading:"ようき", meaning_jp:"明るく元気なこと",
+   meaning_en:"cheerful",
+   meaning_np:"उत्साही",
+   options:["陽気","容器","様気","養気"]},
+  {q:"会議の時間を【へんこう】する。",
+   answer:"変更", reading:"へんこう", meaning_jp:"変えて別のものにすること",
+   meaning_en:"change",
+   meaning_np:"परिवर्तन",
+   options:["変更","返稿","編校","変向"]},
+  {q:"資料を【ていしゅつ】してください。",
+   answer:"提出", reading:"ていしゅつ", meaning_jp:"提出すること",
+   meaning_en:"submission",
+   meaning_np:"पेश गर्नु",
+   options:["提出","抵述","低出","定述"]},
+  {q:"彼は試験に合格して【よろこぶ】。",
+   answer:"喜ぶ", reading:"よろこぶ", meaning_jp:"うれしいと思うこと",
+   meaning_en:"to be happy",
+   meaning_np:"खुसी हुनु",
+   options:["喜ぶ","慶ぶ","喜栄","喜望"]},
+  {q:"問題を【かいけつ】する方法を考える。",
+   answer:"解決", reading:"かいけつ", meaning_jp:"問題を解き明かすこと",
+   meaning_en:"solution",
+   meaning_np:"समाधान",
+   options:["解決","快決","改決","解除"]},
+  {q:"彼は【せいしん】を強く持っている。",
+   answer:"精神", reading:"せいしん", meaning_jp:"心の状態や気持ち",
+   meaning_en:"mind / spirit",
+   meaning_np:"मन, भावना",
+   options:["精神","精信","正心","生心"]}
+];
+
+/* ====== 記録用 ====== */
+let userAnswers = [];
+
+/* ====== クイズ処理 ====== */
+let current = 0;
+let score = 0;
+
+function loadQuiz() {
+  const q = quizData[current];
+  document.getElementById("question").innerText = (current+1) + ". " + q.q;
+
+  let html = "";
+  shuffle(q.options).forEach(op => {
+    html += `<button class="option-btn" onclick="selectOption('${op}')">${op}</button>`;
+  });
+  document.getElementById("options").innerHTML = html;
+
+  document.getElementById("next-btn").style.display = "none";
+  document.getElementById("back-btn").style.display = current === 0 ? "none" : "block";
+}
+
+function selectOption(choice) {
+  const q = quizData[current];
+
+  userAnswers[current] = choice;
+
+  if (choice === q.answer) score++;
+
+  document.getElementById("next-btn").style.display = "block";
+
+  const btns = document.querySelectorAll(".option-btn");
+  btns.forEach(b => b.disabled = true);
+}
+
+document.getElementById("next-btn").addEventListener("click", () => {
+  current++;
+  if (current < quizData.length) {
+    loadQuiz();
+  } else {
+    showResult();
+  }
+});
+
+document.getElementById("back-btn").addEventListener("click", () => {
+  if (current > 0) {
+    current--;
+    loadQuiz();
+  }
+});
+
+/* ====== 結果表示（全問の答え・読み・意味一覧） ====== */
+function showResult() {
+  const percent = Math.round((score / quizData.length) * 100);
+
+  let html = `
+    <div class="result-box">
+      <h2>結果</h2>
+      <p>${score} / ${quizData.length} 正解</p>
+      <h3>正解率：${percent}%</h3>
+  `;
+
+  if (percent >= 90) {
+    html += `<p class="correct">合格！ テスト2へ進めます。</p>
+             <button class="next-btn" onclick="location.href='test2.html'">Next Test</button>`;
+    localStorage.setItem("test1_passed", "true");
+  } else {
+    html += `<p class="wrong">不合格…（90% 以上で合格）</p>`;
+    localStorage.setItem("test1_passed", "false");
+  }
+
+  html += `<h2 style="margin-top:30px;">全15問の結果</h2>`;
+
+  quizData.forEach((q, i) => {
+    const correct = q.answer;
+    const your = userAnswers[i];
+
+    html += `
+      <div class="result-item">
+        <strong>${i+1}. ${q.q}</strong><br>
+        <span class="${your === correct ? 'correct' : 'wrong'}">
+          あなたの答え：${your}
+        </span><br>
+        正解：<strong>${correct}</strong><br>
+        読み：${q.reading}<br>
+        意味：${q.meaning_jp}<br>
+        English：${q.meaning_en}<br>
+        Nepali：${q.meaning_np}<br>
+      </div>
+    `;
+  });
+
+  html += `
+      <br>
+      <button class="next-btn" onclick="location.reload()">Retry</button>
+      <br><br>
+      <a href="test_list.html">Back to List</a>
+    </div>
+  `;
+
+  document.getElementById("quiz-box").innerHTML = html;
+}
+
+/* 初期表示 */
+loadQuiz();
+</script>
+
+
+<!-- 🔙 Back ボタン（ページ一番下・中央） -->
+<div style="text-align:center; margin-top:40px; margin-bottom:40px;">
+  <button 
+    style="
+      padding: 14px 30px;
+      font-size: 20px;
+      background: linear-gradient(90deg, #4a74ff, #9a5bff);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    " 
+    onclick="history.back()">
+    ← Back（戻る）
+  </button>
+</div>
+
+
+</body>
+</html>

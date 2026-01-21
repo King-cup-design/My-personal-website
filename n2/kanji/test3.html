@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N2 Kanji テスト3</title>
+<style>
+body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color:#1f2937; margin:0; padding:0; }
+.container { max-width:700px; margin:50px auto; background:#fff; padding:30px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); }
+h1 { text-align:center; color:#059669; margin-bottom:30px; }
+#quiz-area p { font-size:18px; margin-bottom:20px; }
+.option-btn { display:block; width:100%; text-align:left; margin:8px 0; padding:12px; font-size:16px; background:#e5e7eb; border:none; border-radius:8px; cursor:pointer; transition:0.2s; }
+.option-btn:hover { background:#d1fae5; }
+.option-selected { background:#fcd34d; }
+#navigation { display:flex; justify-content:space-between; margin-top:25px; }
+.nav-btn { padding:10px 20px; font-size:16px; background:#3b82f6; color:#fff; border:none; border-radius:8px; cursor:pointer; transition:0.2s; }
+.nav-btn:hover { background:#2563eb; }
+#show-result-btn { background:#10b981; }
+#show-result-btn:hover { background:#059669; }
+#result-area { display:none; margin-top:20px; }
+#result-area h2 { text-align:center; color:#059669; }
+.result-table { width:100%; border-collapse:collapse; margin-top:15px; }
+.result-table th, .result-table td { border:1px solid #d1d5db; padding:8px; text-align:left; }
+.result-table th { background:#f3f4f6; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>N2 Kanji テスト3</h1>
+<div id="quiz-area"></div>
+
+<div id="navigation">
+  <button id="back-btn" class="nav-btn">Back</button>
+  <button id="next-btn" class="nav-btn">Next</button>
+  <button id="show-result-btn" class="nav-btn">結果を見る</button>
+</div>
+
+<div id="result-area">
+  <h2>結果</h2>
+  <p id="score"></p>
+  <table class="result-table" id="detail"></table>
+</div>
+</div>
+
+<script>
+// === N2テスト3用15問 ===
+const quizData = [
+  {q:"彼の意見には十分な【こうさつ】が必要だ。",answer:"考察",reading:"こうさつ",meaning_jp:"深く考えること",meaning_en:"consideration",meaning_np:"गहिरो विचार",options:["考察","考証","校察","講察"]},
+  {q:"問題を【しんちょく】通りに進めてください。",answer:"進捗",reading:"しんちょく",meaning_jp:"物事の進み具合",meaning_en:"progress",meaning_np:"प्रगति",options:["進捗","進直","深捗","迅直"]},
+  {q:"この仕事には高い【のうりょく】が求められる。",answer:"能力",reading:"のうりょく",meaning_jp:"物事を行う力",meaning_en:"ability",meaning_np:"क्षमता",options:["能力","能率","農力","能欲"]},
+  {q:"データの【かくにん】をお願いします。",answer:"確認",reading:"かくにん",meaning_jp:"確かめること",meaning_en:"confirmation",meaning_np:"पुष्टि",options:["確認","格認","確任","確忍"]},
+  {q:"最終【てきせつ】な判断を下す。",answer:"適切",reading:"てきせつ",meaning_jp:"ちょうど良いこと",meaning_en:"appropriate",meaning_np:"उचित",options:["適切","適節","滴切","敵設"]},
+  {q:"彼は非常に【ようしき】ある態度だ。",answer:"様式",reading:"ようしき",meaning_jp:"決まった形式",meaning_en:"style, mode",meaning_np:"शैली",options:["様式","羊式","容識","用式"]},
+  {q:"このプランには【ふかけつ】な要素が多い。",answer:"不可欠",reading:"ふかけつ",meaning_jp:"欠かせないこと",meaning_en:"indispensable",meaning_np:"अत्यावश्यक",options:["不可欠","不可決","不可穴","不課欠"]},
+  {q:"資料を【ほぞん】してください。",answer:"保存",reading:"ほぞん",meaning_jp:"保って残すこと",meaning_en:"save",meaning_np:"सुरक्षित राख्नु",options:["保存","保全","補存","保尊"]},
+  {q:"毎日の【かんし】が必要です。",answer:"監視",reading:"かんし",meaning_jp:"見張ること",meaning_en:"monitoring",meaning_np:"निगरानी",options:["監視","鑑視","観視","管視"]},
+  {q:"会議の内容を【ようやく】してお伝えします。",answer:"要約",reading:"ようやく",meaning_jp:"短くまとめること",meaning_en:"summary",meaning_np:"सारांश",options:["要約","要訳","容約","用約"]},
+  {q:"彼は非常に【きょうちょう】性がある。",answer:"協調",reading:"きょうちょう",meaning_jp:"協力し合うこと",meaning_en:"cooperation",meaning_np:"सहकार्य",options:["協調","強調","共調","協聴"]},
+  {q:"その説明では【ふじゅうぶん】です。",answer:"不十分",reading:"ふじゅうぶん",meaning_jp:"足りないこと",meaning_en:"insufficient",meaning_np:"अपर्याप्त",options:["不十分","不充分","否十分","不重分"]},
+  {q:"これは会社として【じゅうだい】な問題だ。",answer:"重大",reading:"じゅうだい",meaning_jp:"とても大切で重い",meaning_en:"serious",meaning_np:"गम्भीर",options:["重大","重代","充大","重題"]},
+  {q:"自然環境を【ほご】する活動。",answer:"保護",reading:"ほご",meaning_jp:"守ること",meaning_en:"protection",meaning_np:"रक्षा",options:["保護","保後","舗護","補護"]},
+  {q:"書類を【へんさん】してください。",answer:"編纂",reading:"へんさん",meaning_jp:"まとめて編集すること",meaning_en:"compilation",meaning_np:"संकलन",options:["編纂","編集","偏纂","編算"]}
+];
+
+// ランダム正解位置
+const correctPositions = Array.from({ length: quizData.length }, () => Math.floor(Math.random() * 4));
+quizData.forEach((q,i)=>{
+  const correct=q.answer;
+  const others=q.options.filter(o=>o!==correct);
+  const shuffled=[]; let j=0;
+  for(let k=0;k<4;k++){
+    if(k===correctPositions[i]) shuffled.push(correct);
+    else shuffled.push(others[j++]);
+  }
+  q.shuffledOptions=shuffled;
+});
+
+let current=0;
+const userAnswers=new Array(quizData.length).fill(null);
+
+function showQuestion(){
+  const q=quizData[current];
+  const quizArea=document.getElementById("quiz-area");
+  quizArea.innerHTML=`<p>${current+1}) ${q.q}</p>`;
+  q.shuffledOptions.forEach(opt=>{
+    const btn=document.createElement("button");
+    btn.innerText=opt;
+    btn.classList.add("option-btn");
+    if(userAnswers[current]===opt) btn.classList.add("option-selected");
+    btn.onclick=()=>{ userAnswers[current]=opt; showQuestion(); };
+    quizArea.appendChild(btn);
+  });
+}
+
+document.getElementById("back-btn").onclick=()=>{ if(current>0) current--; showQuestion(); };
+document.getElementById("next-btn").onclick=()=>{ if(current<quizData.length-1) current++; showQuestion(); };
+
+document.getElementById("show-result-btn").onclick=()=>{
+  let correct=0,wrong=0;
+  const detailArea=document.getElementById("detail");
+  detailArea.innerHTML="";
+
+  quizData.forEach((q,i)=>{
+    const ua=userAnswers[i]||"未回答";
+    const isCorrect=ua===q.answer;
+    if(isCorrect) correct++; else wrong++;
+
+    const row=document.createElement("tr");
+    row.innerHTML=`<td>${i+1}</td>
+      <td>${q.q}</td>
+      <td>${ua}</td>
+      <td>${q.answer} (${q.reading})</td>
+      <td>${q.meaning_jp} / ${q.meaning_en} / ${q.meaning_np}</td>`;
+    detailArea.appendChild(row);
+  });
+
+  document.getElementById("score").innerText=`正解: ${correct} / 不正解: ${wrong}`;
+  document.getElementById("quiz-area").style.display="none";
+  document.getElementById("back-btn").style.display="none";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("show-result-btn").style.display="none";
+  document.getElementById("result-area").style.display="block";
+};
+
+showQuestion();
+</script>
+</body>
+</html>

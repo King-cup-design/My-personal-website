@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Translator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Simple Translator</h1>
+        </header>
+        
+        <div class="translator">
+            <div class="input-section">
+                <select id="fromLang">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="ja">Japanese</option>
+                </select>
+                <textarea id="inputText" placeholder="Enter text to translate"></textarea>
+            </div>
+            
+            <div class="controls">
+                <button id="swapBtn">⇄</button>
+                <button id="translateBtn">Translate</button>
+                <button id="clearBtn">Clear</button>
+            </div>
+            
+            <div class="output-section">
+                <select id="toLang">
+                    <option value="ja">Japanese</option>
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                </select>
+                <textarea id="outputText" placeholder="Translation will appear here" readonly></textarea>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

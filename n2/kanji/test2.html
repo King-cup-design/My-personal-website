@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N2 Kanji テスト2</title>
+<style>
+body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color:#1f2937; margin:0; padding:0; }
+.container { max-width:700px; margin:50px auto; background:#fff; padding:30px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); }
+h1 { text-align:center; color:#059669; margin-bottom:30px; }
+#quiz-area p { font-size:18px; margin-bottom:20px; }
+.option-btn { display:block; width:100%; text-align:left; margin:8px 0; padding:12px; font-size:16px; background:#e5e7eb; border:none; border-radius:8px; cursor:pointer; transition:0.2s; }
+.option-btn:hover { background:#d1fae5; }
+.option-selected { background:#fcd34d; }
+#navigation { display:flex; justify-content:space-between; margin-top:25px; }
+.nav-btn { padding:10px 20px; font-size:16px; background:#3b82f6; color:#fff; border:none; border-radius:8px; cursor:pointer; transition:0.2s; }
+.nav-btn:hover { background:#2563eb; }
+#show-result-btn { background:#10b981; }
+#show-result-btn:hover { background:#059669; }
+#result-area { display:none; margin-top:20px; }
+#result-area h2 { text-align:center; color:#059669; }
+.result-table { width:100%; border-collapse: collapse; margin-top:15px; }
+.result-table th, .result-table td { border:1px solid #d1d5db; padding:8px; text-align:left; }
+.result-table th { background:#f3f4f6; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>N2 Kanji テスト2</h1>
+
+<div id="quiz-area"></div>
+
+<div id="navigation">
+  <button id="back-btn" class="nav-btn">Back</button>
+  <button id="next-btn" class="nav-btn">Next</button>
+  <button id="show-result-btn" class="nav-btn">結果を見る</button>
+</div>
+
+<div id="result-area">
+  <h2>結果</h2>
+  <p id="score"></p>
+  <table class="result-table" id="detail"></table>
+</div>
+</div>
+
+<script>
+// ★ N2レベルの漢字 15問
+const quizData=[
+  {q:"新しい計画の【こうにゅう】について会議で話し合う。",
+   answer:"購入", reading:"こうにゅう", meaning_jp:"買うこと", meaning_en:"purchase", meaning_np:"किन्ने", options:["購入","考入","公入","構入"]},
+  {q:"彼は毎日ジョギングをして【けんこう】に気をつけている。",
+   answer:"健康", reading:"けんこう", meaning_jp:"体の調子が良いこと", meaning_en:"health", meaning_np:"स्वास्थ्य", options:["健康","健行","検考","堅高"]},
+  {q:"商品を海外へ【ゆしゅつ】する会社が増えている。",
+   answer:"輸出", reading:"ゆしゅつ", meaning_jp:"外国へ物を送ること", meaning_en:"export", meaning_np:"निर्यात", options:["輸出","由出","油出","輸述"]},
+  {q:"彼の意見はとても【きょうちょう】されていた。",
+   answer:"強調", reading:"きょうちょう", meaning_jp:"特に強く言うこと", meaning_en:"emphasis", meaning_np:"जोर दिनु", options:["強調","協調","強潮","強聴"]},
+  {q:"この地域は地震の【はっせい】が多い。",
+   answer:"発生", reading:"はっせい", meaning_jp:"起こること", meaning_en:"occurrence", meaning_np:"घटना", options:["発生","発正","発声","法生"]},
+  {q:"彼は毎日ニュースを【しゅうしゅう】している。",
+   answer:"収集", reading:"しゅうしゅう", meaning_jp:"集めること", meaning_en:"collect", meaning_np:"सङ्कलन", options:["収集","集習","収修","収襲"]},
+  {q:"電車が遅れて会議に【ちこく】してしまった。",
+   answer:"遅刻", reading:"ちこく", meaning_jp:"時間に遅れること", meaning_en:"late", meaning_np:"ढिलाइ", options:["遅刻","遅告","地刻","遅穀"]},
+  {q:"この薬はとても【こうか】がある。",
+   answer:"効果", reading:"こうか", meaning_jp:"効き目", meaning_en:"effect", meaning_np:"प्रभाव", options:["効果","公果","効下","光価"]},
+  {q:"彼はプロジェクトの成功に大きく【こうけん】した。",
+   answer:"貢献", reading:"こうけん", meaning_jp:"役に立つこと", meaning_en:"contribution", meaning_np:"योगदान", options:["貢献","公研","貢建","功献"]},
+  {q:"家の電気を【せつやく】するためにLEDに変えた。",
+   answer:"節約", reading:"せつやく", meaning_jp:"むだを減らすこと", meaning_en:"saving", meaning_np:"बचत", options:["節約","設約","折約","節訳"]},
+  {q:"アプリの利用者が急速に【ぞうか】している。",
+   answer:"増加", reading:"ぞうか", meaning_jp:"数量がふえること", meaning_en:"increase", meaning_np:"वृद्धि", options:["増加","増価","層加","像加"]},
+  {q:"彼の考え方には一貫した【りろん】がある。",
+   answer:"理論", reading:"りろん", meaning_jp:"考えの体系", meaning_en:"theory", meaning_np:"सिद्धान्त", options:["理論","利論","理輪","里論"]},
+  {q:"友人に旅行の計画を【ていあん】した。",
+   answer:"提案", reading:"ていあん", meaning_jp:"アイデアを出すこと", meaning_en:"proposal", meaning_np:"प्रस्ताव", options:["提案","定案","低案","呈案"]},
+  {q:"部屋の温度を一定に【ちょうせつ】する。",
+   answer:"調節", reading:"ちょうせつ", meaning_jp:"ちょうどよくすること", meaning_en:"adjust", meaning_np:"समायोजन", options:["調節","調設","頂節","聴節"]},
+  {q:"彼の成功は努力の【けっか】だ。",
+   answer:"結果", reading:"けっか", meaning_jp:"最終の状態", meaning_en:"result", meaning_np:"परिणाम", options:["結果","結価","欠果","結下"]}
+];
+
+// ランダム正解位置
+const correctPositions = Array.from({length:quizData.length}, () => Math.floor(Math.random()*4));
+quizData.forEach((q,i)=>{
+  const correct=q.answer;
+  const others=q.options.filter(o=>o!==correct);
+  const shuffled=[];
+  let j=0;
+  for(let k=0;k<4;k++){
+    if(k===correctPositions[i]) shuffled.push(correct);
+    else shuffled.push(others[j++]);
+  }
+  q.shuffledOptions=shuffled;
+});
+
+let current=0;
+const userAnswers=new Array(quizData.length).fill(null);
+
+function showQuestion(){
+  const q=quizData[current];
+  const quizArea=document.getElementById("quiz-area");
+  quizArea.innerHTML=`<p>${current+1}) ${q.q}</p>`;
+  q.shuffledOptions.forEach(opt=>{
+    const btn=document.createElement("button");
+    btn.innerText=opt;
+    btn.classList.add("option-btn");
+    if(userAnswers[current]===opt) btn.classList.add("option-selected");
+    btn.onclick=()=>{ userAnswers[current]=opt; showQuestion(); };
+    quizArea.appendChild(btn);
+  });
+}
+
+document.getElementById("back-btn").onclick=()=>{ if(current>0) current--; showQuestion(); };
+document.getElementById("next-btn").onclick=()=>{ if(current<quizData.length-1) current++; showQuestion(); };
+
+document.getElementById("show-result-btn").onclick=()=>{
+  let correct=0,wrong=0;
+  const detailArea=document.getElementById("detail");
+  detailArea.innerHTML="";
+
+  quizData.forEach((q,i)=>{
+    const ua=userAnswers[i] || "未回答";
+    const isCorrect = ua===q.answer;
+    if(isCorrect) correct++; else wrong++;
+
+    const row=document.createElement("tr");
+    row.innerHTML=`<td>${i+1}</td><td>${q.q}</td><td>${ua}</td><td>${q.answer} (${q.reading})</td><td>${q.meaning_jp} / ${q.meaning_en} / ${q.meaning_np}</td>`;
+    detailArea.appendChild(row);
+  });
+
+  document.getElementById("score").innerText=`正解: ${correct} / 不正解: ${wrong}`;
+  document.getElementById("quiz-area").style.display="none";
+  document.getElementById("back-btn").style.display="none";
+  document.getElementById("next-btn").style.display="none";
+  document.getElementById("show-result-btn").style.display="none";
+  document.getElementById("result-area").style.display="block";
+};
+
+showQuestion();
+</script>
+</body>
+</html>

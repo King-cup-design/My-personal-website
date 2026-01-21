@@ -1,0 +1,154 @@
+/* Simple Translator Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #4285f4;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.translator {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.input-section,
+.output-section {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+select {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+textarea {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    resize: vertical;
+    min-height: 150px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
+}
+
+#swapBtn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 20px;
+    color: #666;
+}
+
+#swapBtn:hover {
+    color: #4285f4;
+}
+
+#translateBtn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#translateBtn:hover {
+    background-color: #3367d6;
+}
+
+#translateBtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#clearBtn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+#clearBtn:hover {
+    background-color: #c82333;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .translator {
+        flex-direction: row;
+    }
+    
+    .input-section,
+    .output-section {
+        flex: 1;
+    }
+    
+    .controls {
+        flex-direction: column;
+        width: 80px;
+        border-top: none;
+        border-bottom: none;
+        border-left: 1px solid #e9ecef;
+        border-right: 1px solid #e9ecef;
+    }
+    
+    #swapBtn {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    #clearBtn {
+        margin-top: 15px;
+    }
+}

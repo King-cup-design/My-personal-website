@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N1 Kanji Test List</title>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f3f3f3;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .test-container {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    /* ✔ 丸型 + グラデーションボタン */
+    .test-btn {
+      width: 100%;
+      padding: 15px;
+      margin: 12px 0;
+      font-size: 20px;
+      background: linear-gradient(90deg, #4a74ff, #9a5bff);
+      color: white;
+      border: none;
+      border-radius: 50px; /* ← 完全丸ボタン */
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .test-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* 🔒 ロックボタン */
+    .locked {
+      background: #b5b5b5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .locked:hover {
+      transform: none;
+    }
+
+    .lock-text {
+      font-size: 14px;
+      color: #444;
+      margin-top: -8px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+
+<h1>N1 漢字テスト一覧<br>（Kanji Test List）</h1>
+
+<div class="test-container">
+
+  <!-- Test 1 は常に開く -->
+  <button class="test-btn" onclick="location.href='test1.html'">
+    Test 1（テスト1）
+  </button>
+
+  <!-- Test 2：ロック -->
+  <button id="test2-btn" class="test-btn locked">
+    🔒 Test 2（テスト2）
+  </button>
+  <p id="test2-lock" class="lock-text">Test 1 合格で解放されます</p>
+
+  <!-- Test 3：ロック -->
+  <button id="test3-btn" class="test-btn locked">
+    🔒 Test 3（テスト3）
+  </button>
+  <p id="test3-lock" class="lock-text">Test 2 合格で解放されます</p>
+
+  <!-- Test 4：ロック -->
+  <button id="test4-btn" class="test-btn locked">
+    🔒 Test 4（テスト4）
+  </button>
+  <p id="test4-lock" class="lock-text">Test 3 合格で解放されます</p>
+
+  <!-- Test 5：ロック -->
+  <button id="test5-btn" class="test-btn locked">
+    🔒 Test 5（テスト5）
+  </button>
+  <p id="test5-lock" class="lock-text">Test 4 合格で解放されます</p>
+
+</div>
+
+<script>
+/* ====== ロック解除システム ======
+   test1.html で合格（90%以上）すると
+   localStorage.setItem("test1_passed", "true");
+==================================== */
+
+const passed = localStorage.getItem("test1_passed");
+
+if (passed === "true") {
+
+  // Test 2 unlock
+  const t2 = document.getElementById("test2-btn");
+  t2.classList.remove("locked");
+  t2.innerText = "Test 2（テスト2）";
+  t2.onclick = () => location.href = "test2.html";
+  document.getElementById("test2-lock").style.display = "none";
+
+  // Test 5（誤っている元コードの位置はそのまま残します）
+  const t5 = document.getElementById("test5-btn");
+  t5.classList.remove("locked");
+  t5.innerText = "Test 5（テスト5）";
+  t5.onclick = () => location.href = "test3.html";
+  document.getElementById("test5-lock").style.display = "none";
+}
+</script>
+
+<!-- 🔙 Back ボタン -->
+<button class="test-btn" onclick="history.back()">
+  ← Back（戻る）
+</button>
+
+</body>
+</html>
